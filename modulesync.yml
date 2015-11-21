@@ -1,0 +1,15 @@
+---
+namespace: simp
+noop: true
+
+# We use the https call to github to prevent modulesync from just whacking
+# things back into the simp/* repos
+git_base: 'https://github.com/'
+
+# We change the branch for similar reasons.
+# When using msync, you should always override this with:
+#
+#    msync update --noop --branch SIMP-###
+#
+# Where 'SIMP-###' is the Jira issue number.
+branch: SIMP-MODULESYNC-FORGOT-BRANCH
