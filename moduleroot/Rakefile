@@ -9,16 +9,21 @@ require 'puppet-lint/tasks/puppet-lint'
 begin
   require 'puppet_blacksmith/rake_tasks'
 rescue LoadError
+  puts '== NOTICE: `puppet-blacksmith` not found. Install it to use the `module:` tasks. =='
 end
 
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.2')
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new
+end
 
 # Lint & Syntax exclusions
 exclude_paths = [
-  "bundle/**/*",
-  "pkg/**/*",
-  "dist/**/*",
-  "vendor/**/*",
-  "spec/**/*",
+  'bundle/**/*',
+  'pkg/**/*',
+  'dist/**/*',
+  'vendor/**/*',
+  'spec/**/*',
 ]
 PuppetSyntax.exclude_paths = exclude_paths
 
@@ -31,35 +36,35 @@ end
 
 begin
   require 'simp/rake/pkg'
-  Simp::Rake::Pkg.new( File.dirname( __FILE__ ) ) do | t |
+  Simp::Rake::Pkg.new(File.dirname(__FILE__)) do |t|
     t.clean_list << "#{t.base_dir}/spec/fixtures/hieradata/hiera.yaml"
   end
 rescue LoadError
-  puts "== WARNING: Gem simp-rake-helpers not found, pkg: tasks cannot be run! =="
+  puts '== WARNING: Gem simp-rake-helpers not found, pkg: tasks cannot be run! =='
 end
 
 begin
   require 'simp/rake/beaker'
-  Simp::Rake::Beaker.new( File.dirname( __FILE__ ) )
-rescue LoadError
+  Simp::Rake::Beaker.new(File.dirname(__FILE__))
+rescue LoadError # rubocop:disable Lint/HandleExceptions
   # Ignoring this for now since all of these are currently convenience methods.
 end
 
-desc "Run acceptance tests"
+desc 'Run acceptance tests'
 RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance'
 end
 
-desc "Populate CONTRIBUTORS file"
+desc 'Populate CONTRIBUTORS file'
 task :contributors do
   system("git log --format='%aN' | sort -u > CONTRIBUTORS")
 end
 
 task :metadata do
-  sh "metadata-json-lint metadata.json"
+  sh 'metadata-json-lint metadata.json'
 end
 
-desc "Run syntax, lint, and spec tests."
+desc 'Run syntax, lint, and spec tests.'
 task :test => [
   :syntax,
   :lint,
