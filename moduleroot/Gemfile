@@ -49,4 +49,8 @@ group :system_tests do
   # NOTE: Workaround because net-ssh 2.10 is busting beaker
   # lib/ruby/1.9.1/socket.rb:251:in `tcp': wrong number of arguments (5 for 4) (ArgumentError)
   gem 'net-ssh', '~> 2.9.0'
+
+  # XXX: Workaround for `wrong number of arguments (0 for 1)` error on all serverspec/specinfra tests.
+  # See https://github.com/puppetlabs/ruby-hocon/issues/75 for details.
+  gem 'specinfra', '~> 2.28.0'
 end
