@@ -1,0 +1,15 @@
+.*.sw[pnrqost]
+.yardoc
+dist
+/pkg
+/spec/fixtures/manifests
+/spec/fixtures/modules
+/spec/fixtures/hieradata
+/.rspec_system
+/.vagrant
+/.bundle
+/Gemfile.lock
+/vendor
+/junit
+/log
+coverage
